@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity // This annotation marks the class as a JPA entity (a table in the database)
 @Data // Lombok will generate getters, setters, toString, equals, and hashCode methods
 
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
