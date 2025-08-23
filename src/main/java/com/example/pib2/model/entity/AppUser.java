@@ -5,32 +5,31 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Entity // This annotation marks the class as a JPA entity (a table in the database)
-@Data // Lombok will generate getters, setters, toString, equals, and hashCode methods
-
+@Entity(name = "app_user") // Nombre de la entidad en snake_case
+@Data
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String user_first_name;
+    @Column(name = "user_first_name", nullable = false, length = 100)
+    private String firstName;
 
-    @Column(nullable = false, length = 100)
-    private String user_sur_name;
+    @Column(name = "user_sur_name", nullable = false, length = 100)
+    private String userSurName;
 
-    @Column(nullable = false, length = 200,unique = true)
-    private String user_email;
+    @Column(name = "user_email", nullable = false, length = 200, unique = true)
+    private String userEmail;
 
-    @Column(nullable = false)
-    private String user_password;
+    @Column(name = "user_password", nullable = false)
+    private String userPassword;
 
-    @Column(nullable = false, length = 20)
-    private String user_phone_number;
+    @Column(name = "user_phone_number", nullable = false, length = 20)
+    private String userPhoneNumber;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name ="user_created_at", nullable = false)
-    private Date user_created_at;
+    @Column(name = "user_created_at", nullable = false)
+    private Date userCreatedAt;
 
 
 }
