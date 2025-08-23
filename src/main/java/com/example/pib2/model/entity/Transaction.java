@@ -10,13 +10,14 @@ import java.time.LocalDate;
 @Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private long transaction_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long transaction_id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="document_id")
     private Document document;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
 
