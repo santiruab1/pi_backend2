@@ -31,5 +31,8 @@ public class AppUser {
     @Column(name = "user_created_at", nullable = false)
     private Date userCreatedAt;
 
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<UserCompany> userCompanies;
+
 
 }
