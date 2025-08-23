@@ -21,4 +21,16 @@ public class ThirdParty {
     @Column(name = "third_party_tax_id", nullable = false)
     private String taxId;
 
+    @Column(name = "third_party_address", nullable = false)
+    private String address;
+
+    @Column(name = "third_party_phone", nullable = false)
+    private String phone;
+
+    @Column(name = "third_party_email", nullable = false)
+    private String email;
+
+    @Column(name = "third_party_type", nullable = false)
+    private String type;
+
 }
