@@ -12,6 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_identification_number", nullable = false, length = 50, unique = true)
+    private String identificationNumber;
+
     @Column(name = "user_first_name", nullable = false, length = 100)
     private String firstName;
 
@@ -31,8 +34,8 @@ public class User {
     @Column(name = "user_created_at", nullable = false)
     private Date userCreatedAt;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    private java.util.List<UserCompany> userCompanies;
+    // @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    // private java.util.List<UserCompany> userCompanies;
 
 
 }
