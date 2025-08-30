@@ -5,9 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Entity(name = "app_user") // Nombre de la entidad en snake_case
+@Entity(name = "users") // Nombre de la entidad en snake_case
 @Data
-public class AppUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

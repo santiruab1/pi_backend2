@@ -2,7 +2,6 @@ package com.example.pib2.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
