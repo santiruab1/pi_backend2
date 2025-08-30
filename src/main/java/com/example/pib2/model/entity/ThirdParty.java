@@ -10,27 +10,27 @@ public class ThirdParty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name = "third_party_id", nullable = false, unique = true)
-    private Long id;
+    private Long Id;
 
     @Column (name = "third_party_document", nullable = false, unique = true)
-    private String document;
+    private String Document;
 
     @Column(name = "third_party_name", nullable = false)
-    private String name;
+    private String Name;
 
     @Column(name = "third_party_tax_id", nullable = false)
-    private String taxId;
+    private String TaxId;
 
     @Column(name = "third_party_address", nullable = false)
-    private String address;
+    private String Address;
 
     @Column(name = "third_party_phone", nullable = false)
-    private String phone;
+    private String Phone;
 
     @Column(name = "third_party_email", nullable = false)
-    private String email;
+    private String Email;
 
     @Column(name = "third_party_type", nullable = false)
-    private String type;
+    private String Type;
 
 }
