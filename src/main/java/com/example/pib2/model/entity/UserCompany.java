@@ -13,7 +13,7 @@ public class UserCompany {
 
     @ManyToOne
     @JoinColumn(name = "app_user_id", nullable = false)
-    private AppUser appUser;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
