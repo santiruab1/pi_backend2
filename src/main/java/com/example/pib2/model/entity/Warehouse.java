@@ -20,6 +20,4 @@ public class Warehouse {
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<Transaction> transactions;
 
-
-
 }
