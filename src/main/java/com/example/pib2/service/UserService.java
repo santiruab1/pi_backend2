@@ -1,6 +1,7 @@
 package com.example.pib2.service;
 
 import com.example.pib2.model.dto.UserDTO;
+import com.example.pib2.model.dto.UserCreateDTO;
 import com.example.pib2.model.entity.User;
 import com.example.pib2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +16,22 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
+    public UserDTO createUser(UserCreateDTO userCreateDTO) {
         User user = new User();
-        user.setIdentificationNumber(userDTO.getIdentificationNumber());
-        user.setFirstName(userDTO.getFirstName());
-        user.setUserSurName(userDTO.getUserSurName());
-        user.setUserEmail(userDTO.getUserEmail());
+        user.setIdentificationNumber(userCreateDTO.getIdentificationNumber());
+        user.setFirstName(userCreateDTO.getFirstName());
+        user.setUserSurName(userCreateDTO.getUserSurName());
+        user.setUserEmail(userCreateDTO.getUserEmail());
+        user.setUserPassword(userCreateDTO.getUserPassword());
+        user.setUserPhoneNumber(userCreateDTO.getUserPhoneNumber());
         user.setUserCreatedAt(new Date());
 
         User newUser = userRepository.save(user);
-
-        UserDTO newUserDTO = new UserDTO();
-        newUserDTO.setId(newUser.getId());
-        newUserDTO.setIdentificationNumber(newUser.getIdentificationNumber());
-        newUserDTO.setFirstName(newUser.getFirstName());
-        newUserDTO.setUserSurName(newUser.getUserSurName());
-        newUserDTO.setUserEmail(newUser.getUserEmail());
-
-        return newUserDTO;
+        return convertToDTO(newUser);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -62,6 +56,31 @@ public class UserService {
         return user != null ? convertToDTO(user) : null;
     }
 
+    public UserDTO updateUser(Long id, UserCreateDTO userCreateDTO) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setIdentificationNumber(userCreateDTO.getIdentificationNumber());
+            user.setFirstName(userCreateDTO.getFirstName());
+            user.setUserSurName(userCreateDTO.getUserSurName());
+            user.setUserEmail(userCreateDTO.getUserEmail());
+            user.setUserPassword(userCreateDTO.getUserPassword());
+            user.setUserPhoneNumber(userCreateDTO.getUserPhoneNumber());
+            
+            User updatedUser = userRepository.save(user);
+            return convertToDTO(updatedUser);
+        }
+        return null;
+    }
+
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
     private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -69,6 +88,8 @@ public class UserService {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setUserSurName(user.getUserSurName());
         userDTO.setUserEmail(user.getUserEmail());
+        userDTO.setUserPhoneNumber(user.getUserPhoneNumber());
+        userDTO.setUserCreatedAt(user.getUserCreatedAt());
         return userDTO;
     }
 }

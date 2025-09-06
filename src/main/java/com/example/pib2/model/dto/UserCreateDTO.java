@@ -8,6 +8,10 @@ import lombok.Data;
 @Data
 public class UserCreateDTO {
     @NotBlank
+    @Size(max = 50)
+    private String identificationNumber;
+
+    @NotBlank
     @Size(max = 100)
     private String firstName;
 
@@ -28,4 +32,4 @@ public class UserCreateDTO {
     @Size(max = 20)
     private String userPhoneNumber;
 
- }
+}

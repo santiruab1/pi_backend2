@@ -8,7 +8,7 @@ import lombok.Data;
 @Table(name = "third_parties")
 public class ThirdParty {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "third_party_id", nullable = false, unique = true)
     private Long Id;
 

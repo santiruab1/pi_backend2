@@ -5,7 +5,8 @@ import lombok.Data;
 
 import java.util.Date;
 
-@Entity(name = "users") // Nombre de la entidad en snake_case
+@Entity
+@Table(name = "users") // Nombre de la entidad en snake_case
 @Data
 public class User {
     @Id
