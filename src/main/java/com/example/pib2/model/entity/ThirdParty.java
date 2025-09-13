@@ -2,11 +2,13 @@ package com.example.pib2.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "third_parties")
-public class ThirdParty {
+public class ThirdParty extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "third_party_id", nullable = false, unique = true)

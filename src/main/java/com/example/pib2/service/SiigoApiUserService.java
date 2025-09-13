@@ -191,8 +191,13 @@ public class SiigoApiUserService {
         dto.setEmail(siigoApiUser.getEmail());
         dto.setAccessKey(siigoApiUser.getAccessKey());
         dto.setAppType(siigoApiUser.getAppType());
-        dto.setCreatedAt(siigoApiUser.getCreatedAt());
-        dto.setUpdatedAt(siigoApiUser.getUpdatedAt());
+        // Convert LocalDateTime to Date for DTO setters
+        if (siigoApiUser.getCreatedAt() != null) {
+            dto.setCreatedAt(java.sql.Timestamp.valueOf(siigoApiUser.getCreatedAt()));
+        }
+        if (siigoApiUser.getUpdatedAt() != null) {
+            dto.setUpdatedAt(java.sql.Timestamp.valueOf(siigoApiUser.getUpdatedAt()));
+        }
         dto.setUserId(siigoApiUser.getUserId());
         dto.setCompanyId(siigoApiUser.getCompanyId());
         return dto;

@@ -2,13 +2,15 @@ package com.example.pib2.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true, exclude = {"UserCompanies"})
 @Table(name = "companies")
 @Entity
-public class Company {
+public class Company extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

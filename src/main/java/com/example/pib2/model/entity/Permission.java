@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "permissions")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"roles"})
 public class Permission extends BaseEntity {
     
     @Id
