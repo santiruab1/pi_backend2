@@ -4,10 +4,7 @@ import com.example.pib2.model.dto.UserDTO;
 import com.example.pib2.model.dto.UserCreateDTO;
 import com.example.pib2.model.entity.User;
 import com.example.pib2.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +25,7 @@ public class UserService {
         user.setUserEmail(userCreateDTO.getUserEmail());
         user.setUserPassword(userCreateDTO.getUserPassword());
         user.setUserPhoneNumber(userCreateDTO.getUserPhoneNumber());
-        user.setUserCreatedAt(new Date());
+        // createdAt se establece automáticamente por @CreationTimestamp
 
         User newUser = userRepository.save(user);
         return convertToDTO(newUser);
@@ -89,7 +86,8 @@ public class UserService {
         userDTO.setUserSurName(user.getUserSurName());
         userDTO.setUserEmail(user.getUserEmail());
         userDTO.setUserPhoneNumber(user.getUserPhoneNumber());
-        userDTO.setUserCreatedAt(user.getUserCreatedAt());
+        userDTO.setUserCreatedAt(user.getCreatedAt() != null ? 
+            java.sql.Timestamp.valueOf(user.getCreatedAt()) : null);
         return userDTO;
     }
 }

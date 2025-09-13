@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CostCenterCreateDTO {
+public class WarehouseCreateDTO {
     
-    @NotBlank(message = "El nombre del centro de costo es obligatorio")
+    @NotBlank(message = "El nombre del almacén es obligatorio")
     @Size(max = 100, message = "El nombre no puede exceder 100 caracteres")
     private String name;
 }
