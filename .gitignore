@@ -32,3 +32,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Coding Standards ###
+.coding-standards.md
+.cursor-rules
+.project-standards.md

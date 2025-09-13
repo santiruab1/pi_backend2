@@ -2,14 +2,15 @@ package com.example.pib2.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name ="documents")
-public class Document {
+@Table(name = "documents")
+public class Document extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
