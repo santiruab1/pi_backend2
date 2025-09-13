@@ -18,6 +18,9 @@ public class SiigoApiUserService {
     @Autowired
     private SiigoApiUserRepository siigoApiUserRepository;
     
+    @Autowired
+    private EncryptionService encryptionService;
+    
     // Crear nuevo usuario de API de Siigo
     public SiigoApiUserDTO createSiigoApiUser(SiigoApiUserCreateDTO createDTO) {
         // Validar que no exista el email para el usuario
@@ -34,7 +37,7 @@ public class SiigoApiUserService {
         
         SiigoApiUser siigoApiUser = new SiigoApiUser();
         siigoApiUser.setEmail(createDTO.getEmail());
-        siigoApiUser.setAccessKey(createDTO.getAccessKey());
+        siigoApiUser.setAccessKey(encryptionService.encrypt(createDTO.getAccessKey()));
         siigoApiUser.setAppType(createDTO.getAppType());
         siigoApiUser.setUserId(createDTO.getUserId());
         siigoApiUser.setCompanyId(createDTO.getCompanyId());
@@ -144,7 +147,7 @@ public class SiigoApiUserService {
                     }
                     
                     existingUser.setEmail(updateDTO.getEmail());
-                    existingUser.setAccessKey(updateDTO.getAccessKey());
+                    existingUser.setAccessKey(encryptionService.encrypt(updateDTO.getAccessKey()));
                     existingUser.setAppType(updateDTO.getAppType());
                     existingUser.setUserId(updateDTO.getUserId());
                     existingUser.setCompanyId(updateDTO.getCompanyId());
@@ -182,6 +185,58 @@ public class SiigoApiUserService {
         SiigoApiUserStatsDTO stats = new SiigoApiUserStatsDTO();
         stats.setTotalUsers(siigoApiUserRepository.countByAppType(appType));
         return stats;
+    }
+    
+    // Validate access key
+    public boolean verifyAccessKey(String email, String rawAccessKey) {
+        Optional<SiigoApiUser> userOpt = siigoApiUserRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            SiigoApiUser user = userOpt.get();
+            try {
+                String decryptedAccessKey = encryptionService.decrypt(user.getAccessKey());
+                return rawAccessKey.equals(decryptedAccessKey);
+            } catch (Exception e) {
+                // Si hay error desencriptando, asumir que es inválido
+                return false;
+            }
+        }
+        return false;
+    }
+    
+    // Obtener usuario por email y verificar access key
+    public Optional<SiigoApiUserDTO> authenticateUser(String email, String rawAccessKey) {
+        if (verifyAccessKey(email, rawAccessKey)) {
+            return getByEmail(email);
+        }
+        return Optional.empty();
+    }
+    
+    // Obtener access key desencriptado para uso en APIs externas
+    public Optional<String> getDecryptedAccessKey(String email) {
+        Optional<SiigoApiUser> userOpt = siigoApiUserRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            SiigoApiUser user = userOpt.get();
+            try {
+                return Optional.of(encryptionService.decrypt(user.getAccessKey()));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
+    }
+    
+    // Obtener access key desencriptado por ID
+    public Optional<String> getDecryptedAccessKeyById(Long id) {
+        Optional<SiigoApiUser> userOpt = siigoApiUserRepository.findById(id);
+        if (userOpt.isPresent()) {
+            SiigoApiUser user = userOpt.get();
+            try {
+                return Optional.of(encryptionService.decrypt(user.getAccessKey()));
+            } catch (Exception e) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
     }
     
     // Convertir entidad a DTO

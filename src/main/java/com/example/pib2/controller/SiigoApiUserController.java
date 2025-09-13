@@ -145,4 +145,35 @@ public class SiigoApiUserController {
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) 
                       : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    
+    @PostMapping("/authenticate")
+    public ResponseEntity<SiigoApiUserDTO> authenticateSiigoApiUser(
+            @RequestParam String email, 
+            @RequestParam String accessKey) {
+        Optional<SiigoApiUserDTO> user = siigoApiUserService.authenticateUser(email, accessKey);
+        return user.map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+    }
+    
+    @PostMapping("/verify-access-key")
+    public ResponseEntity<Boolean> verifyAccessKey(
+            @RequestParam String email, 
+            @RequestParam String accessKey) {
+        boolean isValid = siigoApiUserService.verifyAccessKey(email, accessKey);
+        return new ResponseEntity<>(isValid, HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}/access-key")
+    public ResponseEntity<String> getDecryptedAccessKeyById(@PathVariable Long id) {
+        Optional<String> accessKey = siigoApiUserService.getDecryptedAccessKeyById(id);
+        return accessKey.map(key -> new ResponseEntity<>(key, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    
+    @GetMapping("/email/{email}/access-key")
+    public ResponseEntity<String> getDecryptedAccessKeyByEmail(@PathVariable String email) {
+        Optional<String> accessKey = siigoApiUserService.getDecryptedAccessKey(email);
+        return accessKey.map(key -> new ResponseEntity<>(key, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
